@@ -323,6 +323,7 @@ export type Category = {
         crop?: SanityImageCrop;
         _type: 'image';
     };
+    productCount?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -565,6 +566,44 @@ export type LATEST_BLOG_QUERYResult = Array<{
         title: string | null;
     }> | null;
 }>;
+// Variable: DEAL_PRODUCTS
+// Query: *[_type == 'product' && status == 'hot'] | order(name asc){    ...,"categories": categories[]->title  }
+export type DEAL_PRODUCTSResult = Array<{
+    _id: string;
+    _type: 'product';
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+    slug?: Slug;
+    images?: Array<{
+        asset?: {
+            _ref: string;
+            _type: 'reference';
+            _weak?: boolean;
+            [internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: 'image';
+        _key: string;
+    }>;
+    description?: string;
+    price?: number;
+    discount?: number;
+    categories: Array<string | null> | null;
+    stock?: number;
+    brand?: {
+        _ref: string;
+        _type: 'reference';
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: 'brand';
+    };
+    status?: 'hot' | 'new' | 'sale';
+    variant?: 'appliances' | 'gadget' | 'others' | 'refrigerators';
+    isFeatured?: boolean;
+}>;
 
 // Query TypeMap
 import '@sanity/client';
@@ -572,5 +611,6 @@ declare module '@sanity/client' {
     interface SanityQueries {
         "*[_type=='brand'] | order(name asc) ": BRANDS_QUERYResult;
         " *[_type == 'blog' && isLatest == true]|order(name asc){\n      ...,\n      blogcategories[]->{\n      title\n    }\n    }": LATEST_BLOG_QUERYResult;
+        "*[_type == 'product' && status == 'hot'] | order(name asc){\n    ...,\"categories\": categories[]->title\n  }": DEAL_PRODUCTSResult;
     }
 }

@@ -1,3 +1,4 @@
+'use client';
 import { Product } from '@/sanity.types';
 import { urlFor } from '@/sanity/lib/image';
 import { Flame, StarIcon } from 'lucide-react';
@@ -98,8 +99,15 @@ const ProductCard = ({ product }: { product: Product }) => {
                             : 'unavailable'}
                     </p>
                 </div>
-                <PriceView price={product?.price} discount={product?.discount} className='text-sm' />
-                <AddToCartButton product= {product} className='w-36 rounded-full' />
+                <PriceView
+                    price={product?.price}
+                    discount={product?.discount}
+                    className="text-sm"
+                />
+                <AddToCartButton
+                    product={product}
+                    className="w-36 rounded-full"
+                />
             </div>
         </div>
     );
