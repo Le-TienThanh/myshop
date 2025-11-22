@@ -24,7 +24,7 @@ const Logo = ({
                         spanDesign,
                     )}
                 >
-                    Shop
+                    Shop 
                 </span>
             </h2>
         </Link>

@@ -1,3 +1,4 @@
+'use client';
 import { Product } from '@/sanity.types';
 import React from 'react';
 import { Button } from './ui/button';
@@ -5,7 +6,7 @@ import { ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Props {
-    product: Product;
+    product: Product | null | undefined;
     className?: string;
 }
 
@@ -14,11 +15,11 @@ const AddToCartButton = ({ product, className }: Props) => {
     const handleAddToCart = () => {
         window.alert(`Added ${product?.name} to cart!`);
         // tao thong bao chuyen nghiep hon sau
-    }
+    };
     return (
         <div>
             <Button
-            onClick={handleAddToCart}
+                onClick={handleAddToCart}
                 disabled={isOutOfStock}
                 className={cn(
                     `w-full bg-shop_light_green text-white shadow-none

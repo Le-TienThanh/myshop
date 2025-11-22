@@ -10,7 +10,7 @@ const Title = ({
     return (
         <h2
             className={cn(
-                'text-3xl font-bold text-shop_dark_green capitalize tracking-wide font-sans ',
+                'text-3xl font-bold text-shop_light_green capitalize tracking-wide font-sans ',
                 className,
             )}
         >
