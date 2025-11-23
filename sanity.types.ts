@@ -294,7 +294,7 @@ export type Category = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  slug?: Slug;
+  slug?: Slug ;
   description?: string;
   range?: number;
   featured?: boolean;
