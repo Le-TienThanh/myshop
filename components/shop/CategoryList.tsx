@@ -48,6 +48,17 @@ const CategoryList = ({
                         </Label>
                     </div>
                 ))}
+                {selectedCategory && (
+                    <button
+                        onClick={() => {
+                            setSelectedCategory(null);
+                        }}
+                        className="text-sm font-medium mt-2 underline underline-offset-2 decoration-1 
+                      hover:text-shop_light_green hoverEffect text-left"
+                    >
+                        Reset selection
+                    </button>
+                )}
             </RadioGroup>
         </div>
     );

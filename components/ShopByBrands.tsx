@@ -30,6 +30,7 @@ const extraData = [
 ];
 const ShopByBrands = async () => {
     const brands = await getAllBrands();
+
     return (
         <div
             className="mb-10 lg:mb-20 bg-shop_light_bg p-5 lg:p-7
@@ -38,7 +39,6 @@ const ShopByBrands = async () => {
             <div className="flex items-center gap-5 justify-between mb-10">
                 <Title>Shop by Brands</Title>
                 <Link
-                
                     href={'/shop'}
                     className="text-sm font-semibold tracking-wide hover:text-shop_btn_dark_green hoverEffect"
                 >
@@ -49,7 +49,12 @@ const ShopByBrands = async () => {
                 {brands?.map((brand) => (
                     <Link
                         key={brand?._id}
-                        href={`/brand/${brand?.slug?.current}`}
+                        href={{
+                            pathname: '/shop',
+                            query: {
+                                brand: brand?.slug?.current,
+                            },
+                        }}
                         className="bg-white w-36 h-24 flex items-center
                     justify-center rounded-md overflow-hidden hover:shadow-lg shadow-shop_dark_green hoverEffect"
                     >

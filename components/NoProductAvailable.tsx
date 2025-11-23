@@ -36,26 +36,25 @@ const NoProductAvailable = ({
                 className="text-gray-600 "
             >
                 We are sorry, but there are no products matching on{' '}
-                <span>{selectedTab} </span> {" "}
-                criteria at the moment.
+                <span>{selectedTab} </span> criteria at the moment.
             </motion.p>
 
-            <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 1.5, repeat: Infinity }}
-            className='flex items-center space-x-2 text-shop_dark_green '>
-                <Loader2 className='w-5 h-5 animate-spin' />
-                <span>
-                    We are restocking shortly
-                </span>
-
+            <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="flex items-center space-x-2 text-shop_light_green "
+            >
+                <Loader2 className="w-5 h-5 animate-spin-clockwise" />
+                <span>We are restocking shortly</span>
             </motion.div>
 
-            <motion.p initial={{opacity: 0}} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.4 }}
-            className='text-sm text-gray-500'
-            
+            <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-sm text-gray-500"
             >
                 Please check back later or explore other categories.
-
-
             </motion.p>
         </div>
     );
