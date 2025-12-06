@@ -17,6 +17,7 @@ const QuantityButtons = ({ product, className }: Props) => {
     const isOutOfStock = product?.stock === 0;
 
     const handleRemoveProduct = () => {
+        
         removeItem(product?._id);
         if (itemCount > 1) {
             toast.success('Quantity Decrease successfully!');

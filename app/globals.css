@@ -22,6 +22,7 @@
     --color-shop_lighter_text: #ccc;
     --color-rating_star: #ffd700;
     --color-deal-bg: #f1f3f8;
+    --color-heart: #f54336;
 }
 
 @theme inline {

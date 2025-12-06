@@ -73,7 +73,7 @@ const Footer = () => {
                                 type="email"
                                 required
                             />
-                            <Button className="w-full">Subscribe</Button>
+                            <Button className="w-full bg-shop_light_green hover:bg-shop_dark_green">Subscribe</Button>
                         </form>
                     </div>
                 </div>

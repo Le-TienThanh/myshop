@@ -10,7 +10,7 @@ import PriceFormatter from './PriceFormatter';
 import QuantityButtons from './QuantityButtons';
 
 interface Props {
-    product: Product;
+    product: Product | any;
     className?: string;
 }
 

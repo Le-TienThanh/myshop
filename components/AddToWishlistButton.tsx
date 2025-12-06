@@ -10,7 +10,7 @@ const AddToWishlistButton = ({
     product,
     className,
 }: {
-    product: Product;
+    product: Product | null;
     className?: string;
 }) => {
     const { favoriteProduct, addToFavorite } = useStore();
@@ -36,14 +36,23 @@ const AddToWishlistButton = ({
         }
     };
     return (
-        <div className={cn('absolute top-2 right-2 z-10', className)}>
-            <button
+        <div
+            className={cn(
+                'absolute top-2 right-2 hover:cursor-pointer',
+                className,
+            )}
+        >
+            <div
                 onClick={handleFavorite}
-                className={`p-2.5 rounded-full hover:bg-shop_dark_green text-shop_light_green hover:text-white 
+                className={`p-2.5 rounded-full hover:bg-shop_dark_green text-shop_light_green 
       hoverEffect bg-white ${existingProduct ? 'text-white' : ''}`}
             >
-                <Heart fill={existingProduct ? '#f54336' : 'white'} size={15} />
-            </button>
+                <Heart
+                    fill={existingProduct ? '#f54336' : 'white'}
+                    size={15}
+                    color={existingProduct ? '#f54336' : '#32cd32'}
+                />
+            </div>
         </div>
     );
 };

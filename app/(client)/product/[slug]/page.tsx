@@ -1,4 +1,5 @@
 import AddToCartButton from '@/components/AddToCartButton';
+import AddToWishlistButton from '@/components/AddToWishlistButton';
 import Container from '@/components/Container';
 import FavoriteButton from '@/components/FavoriteButton';
 import ImageView from '@/components/ImageView';
