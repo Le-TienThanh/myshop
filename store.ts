@@ -15,7 +15,7 @@ interface StoreState {
     resetCart: () => void;
     getTotalPrice: () => number;
     getSubTotalPrice: () => number;
-    getItemCount: (productId: string) => number;
+    getItemCount: (productId: string ) => number;
     getGroupedItems: () => CartItem[];
     favoriteProduct: Product[];
     addToFavorite: (product: Product) => Promise<void>;
@@ -119,6 +119,7 @@ const useStore = create<StoreState>()(
                                 : [...state.favoriteProduct, { ...product }],
                         };
                     });
+                    resolve();
                 });
             },
             removeFromFavorite: (productId: string) => {
