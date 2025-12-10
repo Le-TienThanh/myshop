@@ -69,9 +69,10 @@ const CartPage = () => {
                                             return (
                                                 <div
                                                     key={product?._id}
-                                                    className="border-b p-3 sm:p-4 md:p-5 last:border-b-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 md:gap-5"
+                                                    className="border-b p-3 sm:p-4 md:p-5 last:border-b-0"
                                                 >
-                                                    <div className="flex flex-1 items-start gap-2 sm:gap-3 min-w-0 w-full sm:w-auto">
+                                                    <div className="flex gap-3 sm:gap-4 md:gap-5 lg:gap-6 items-stretch">
+                                                        {/* Product Image */}
                                                         {product?.images && (
                                                             <Link
                                                                 href={`/product/${product?.slug?.current}`}
@@ -79,8 +80,7 @@ const CartPage = () => {
                                                             >
                                                                 <Image
                                                                     src={urlFor(
-                                                                        product
-                                                                            ?.images[0],
+                                                                        product?.images[0],
                                                                     ).url()}
                                                                     alt="productImage"
                                                                     width={500}
@@ -90,98 +90,197 @@ const CartPage = () => {
                                                                 />
                                                             </Link>
                                                         )}
-                                                        <div className="flex flex-1 flex-col justify-between gap-2 sm:gap-3 min-w-0">
-                                                            <div className="flex flex-col gap-1 sm:gap-1.5">
-                                                                <h2 className="text-sm sm:text-base font-semibold break-words line-clamp-2">
-                                                                    {
-                                                                        product?.name
-                                                                    }
-                                                                </h2>
-                                                                <p className="text-xs sm:text-sm capitalize text-gray-600">
-                                                                    Variant:{' '}
-                                                                    <span className="font-semibold text-darkColor">
-                                                                        {
-                                                                            product?.variant
+                                                        
+                                                        {/* Product Details and Actions */}
+                                                        <div className="flex-1 flex flex-col justify-between min-w-0">
+                                                            <div className="flex justify-between items-start">
+                                                                <div className="flex-1 min-w-0 pr-4">
+                                                                    <h2 className="text-sm sm:text-base lg:text-lg font-semibold break-words line-clamp-2 mb-1 sm:mb-1.5">
+                                                                        {product?.name}
+                                                                    </h2>
+                                                                    <p className="text-xs sm:text-sm capitalize text-gray-600">
+                                                                        Variant:{' '}
+                                                                        <span className="font-semibold text-darkColor">
+                                                                            {product?.variant}
+                                                                        </span>
+                                                                    </p>
+                                                                    <p className="text-xs sm:text-sm capitalize text-gray-600">
+                                                                        Status:{' '}
+                                                                        <span className="font-semibold text-darkColor">
+                                                                            {product?.status}
+                                                                        </span>
+                                                                    </p>
+                                                                </div>
+                                                                {/* Price in top-right */}
+                                                                <div className="flex-shrink-0">
+                                                                    <PriceFormatter
+                                                                        amount={
+                                                                            (product?.price as number) *
+                                                                            itemCount
                                                                         }
-                                                                    </span>
-                                                                </p>
-                                                                <p className="text-xs sm:text-sm capitalize text-gray-600">
-                                                                    Status:{' '}
-                                                                    <span className="font-semibold text-darkColor">
-                                                                        {
-                                                                            product?.status
-                                                                        }
-                                                                    </span>
-                                                                </p>
+                                                                        className="font-bold text-base sm:text-lg lg:text-xl text-shop_dark_green"
+                                                                    />
+                                                                </div>
                                                             </div>
-                                                            <div className="flex items-center gap-2 sm:gap-3">
-                                                                <TooltipProvider>
-                                                                    <Tooltip>
-                                                                        <TooltipTrigger>
-                                                                            <AddToWishlistButton
-                                                                                product={
-                                                                                    product
-                                                                                }
-                                                                                className="relative top-0 right-0"
-                                                                            />
-                                                                        </TooltipTrigger>
-                                                                        <TooltipContent className="font-bold">
-                                                                            Add
-                                                                            to
-                                                                            Favorite
-                                                                        </TooltipContent>
-                                                                    </Tooltip>
-                                                                    <Tooltip>
-                                                                        <TooltipTrigger>
-                                                                            <Trash
-                                                                                onClick={() => {
-                                                                                    deleteCartProduct(
-                                                                                        product?._id,
-                                                                                    );
-                                                                                    toast.success(
-                                                                                        'Product deleted successfully!',
-                                                                                    );
-                                                                                }}
-                                                                                className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 hover:text-red-600 hoverEffect cursor-pointer"
-                                                                            />
-                                                                        </TooltipTrigger>
-                                                                        <TooltipContent className="font-bold bg-red-600">
-                                                                            Delete
-                                                                            product
-                                                                        </TooltipContent>
-                                                                    </Tooltip>
-                                                                </TooltipProvider>
+                                                            
+                                                            {/* Action Icons and Quantity - aligned to bottom with image */}
+                                                            <div className="flex items-center justify-between gap-2 sm:gap-3">
+                                                                <div className="flex items-center gap-0.5 sm:gap-1">
+                                                                    <div className="flex items-center justify-center h-8 w-8 [&>div>div]:p-1.5">
+                                                                        <AddToWishlistButton
+                                                                            product={product}
+                                                                            className="relative top-0 right-0"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="flex items-center justify-center h-8 w-8">
+                                                                        <Trash
+                                                                            onClick={() => {
+                                                                                deleteCartProduct(
+                                                                                    product?._id,
+                                                                                );
+                                                                                toast.success(
+                                                                                    'Product deleted successfully!',
+                                                                                );
+                                                                            }}
+                                                                            className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 hover:text-red-600 hoverEffect cursor-pointer"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex items-center">
+                                                                    <QuantityButtons
+                                                                        product={product}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-between gap-3 sm:gap-4 w-full sm:w-auto sm:flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0">
-                                                        <PriceFormatter
-                                                            amount={
-                                                                (product?.price as number) *
-                                                                itemCount
-                                                            }
-                                                            className="font-bold text-base sm:text-lg text-shop_dark_green"
-                                                        />
-                                                        <QuantityButtons
-                                                            product={product}
-                                                        />
                                                     </div>
                                                 </div>
                                             );
                                         })}
+                                        <div className="border-t">
+                                            <Button
+                                                onClick={handleResetCart}
+                                                className="m-3 sm:m-4 md:m-5 font-semibold w-auto"
+                                                variant={'destructive'}
+                                            >
+                                                Reset Cart
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <Button
-                                        onClick={handleResetCart}
-                                        className="m-3 sm:m-4 md:m-5 font-semibold w-auto"
-                                        variant={'destructive'}
-                                    >
-                                        Reset Cart
-                                    </Button>
+                                    {/* Order Summary for Mobile */}
+                                    <div className="md:hidden mt-4 space-y-4">
+                                        <div className="w-full bg-white p-4 rounded-lg border">
+                                            <h2 className="text-lg font-bold mb-3">Order Summary</h2>
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-gray-600">SubTotal</span>
+                                                    <PriceFormatter
+                                                        amount={getSubTotalPrice()}
+                                                        className="font-semibold"
+                                                    />
+                                                </div>
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-gray-600">Discount</span>
+                                                    <span className="font-semibold text-green-600">
+                                                        -<PriceFormatter
+                                                            amount={getSubTotalPrice() - getTotalPrice()}
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <div className="border-t pt-2 flex justify-between">
+                                                    <span className="font-bold">Total</span>
+                                                    <PriceFormatter
+                                                        amount={getTotalPrice()}
+                                                        className="font-bold text-shop_dark_green"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Button
+                                                className="w-full mt-3 bg-shop_dark_green hover:bg-shop_light_green text-white font-semibold"
+                                            >
+                                                Proceed to Checkout
+                                            </Button>
+                                        </div>
+                                        <div className="w-full bg-white p-4 rounded-lg border">
+                                            <h2 className="text-lg font-bold mb-3">Delivery Address</h2>
+                                            <div className="space-y-2">
+                                                {user?.emailAddresses?.[0]?.emailAddress && (
+                                                    <div className="flex items-start gap-2">
+                                                        <input
+                                                            type="radio"
+                                                            name="address-mobile"
+                                                            id="address-mobile-1"
+                                                            className="mt-1"
+                                                            checked={selectedAddress === null}
+                                                            onChange={() => setSelectedAddress(null)}
+                                                        />
+                                                        <label htmlFor="address-mobile-1" className="text-sm cursor-pointer">
+                                                            <span className="font-semibold">{user.emailAddresses[0].emailAddress}</span>
+                                                            <br />
+                                                            <span className="text-gray-600">Default address</span>
+                                                        </label>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div className="lg:col-span-1">
-                                        <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border">
-                                            <h2>Order Summary</h2>
+                                {/* Order Summary for Desktop */}
+                                <div className="lg:col-span-1">
+                                    <div className="hidden md:block space-y-6">
+                                        <div className="w-full bg-white p-6 rounded-lg border">
+                                            <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+                                            <div className="space-y-3">
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-gray-600">SubTotal</span>
+                                                    <PriceFormatter
+                                                        amount={getSubTotalPrice()}
+                                                        className="font-semibold"
+                                                    />
+                                                </div>
+                                                <div className="flex justify-between text-sm">
+                                                    <span className="text-gray-600">Discount</span>
+                                                    <span className="font-semibold text-green-600">
+                                                        -<PriceFormatter
+                                                            amount={getSubTotalPrice() - getTotalPrice()}
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <div className="border-t pt-3 flex justify-between">
+                                                    <span className="font-bold text-lg">Total</span>
+                                                    <PriceFormatter
+                                                        amount={getTotalPrice()}
+                                                        className="font-bold text-lg text-shop_dark_green"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Button
+                                                className="w-full mt-4 bg-shop_dark_green hover:bg-shop_light_green text-white font-semibold"
+                                            >
+                                                Proceed to Checkout
+                                            </Button>
+                                        </div>
+                                        <div className="w-full bg-white p-6 rounded-lg border">
+                                            <h2 className="text-xl font-bold mb-4">Delivery Address</h2>
+                                            <div className="space-y-3">
+                                                {user?.emailAddresses?.[0]?.emailAddress && (
+                                                    <div className="flex items-start gap-2">
+                                                        <input
+                                                            type="radio"
+                                                            name="address"
+                                                            id="address-1"
+                                                            className="mt-1"
+                                                            checked={selectedAddress === null}
+                                                            onChange={() => setSelectedAddress(null)}
+                                                        />
+                                                        <label htmlFor="address-1" className="text-sm cursor-pointer">
+                                                            <span className="font-semibold">{user.emailAddresses[0].emailAddress}</span>
+                                                            <br />
+                                                            <span className="text-gray-600">Default address</span>
+                                                        </label>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

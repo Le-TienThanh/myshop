@@ -42,6 +42,7 @@ const SideMenu: FC<SidebarProps> = ({ isOpen, onClose }) => {
                             <Link
                                 href={item?.href}
                                 key={item?.title}
+                                onClick={onClose}
                                 className={`hover:text-shop_light_green hoverEffect ${
                                     pathName === item?.href && 'text-white'
                                 }`}
