@@ -28,7 +28,7 @@ const SignIn = () => {
                     </button>
                 </SignInButton>
             ) : (
-                <UserButton afterSignOutUrl="/" />
+                <UserButton />
             )}
         </div>
     );
