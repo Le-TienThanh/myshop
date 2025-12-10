@@ -14,15 +14,15 @@ const Header = async () => {
     const user = await currentUser();
     
     return (
-        <header className="bg-white py-5 sticky top-0 z-50 bg-white/70 backdrop-blur-md">
-            <Container className="flex items-center justify-between text-lightColor">
-                <div className="w-auto md:w-1/3 flex items-center gap-2.5 justify-start md:gap-0 ">
+        <header className="bg-white py-3 md:py-5 sticky top-0 z-50 bg-white/70 backdrop-blur-md">
+            <Container className="flex items-center justify-between text-lightColor gap-2 sm:gap-4">
+                <div className="w-auto md:w-1/3 flex items-center gap-2 sm:gap-2.5 justify-start md:gap-0 flex-shrink-0">
                     <MobileMenu />
-                    <Logo />
+                    <Logo className="text-xl sm:text-2xl" />
                 </div>
                 <HeaderMenu />
                 <div
-                    className={`w-auto md:w-1/3 flex items-center justify-end gap-5`}
+                    className={`w-auto md:w-1/3 flex items-center justify-end gap-2 sm:gap-3 md:gap-5 flex-shrink-0`}
                 >
                     <SearchBar />
                     <CartIcon />

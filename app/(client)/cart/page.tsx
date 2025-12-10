@@ -59,9 +59,9 @@ const CartPage = () => {
                                 <ShoppingBag className="text-shop_light_green" />
                                 <Title>Shopping Cart</Title>
                             </div>
-                            <div className="grid lg:grid-cols-3 md:gap-8">
+                            <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                                 <div className="lg:col-span-2 rounded-lg">
-                                    <div className="border  rounded-md bg-white">
+                                    <div className="border rounded-md bg-white overflow-hidden">
                                         {groupedItems?.map(({ product }) => {
                                             const itemCount = getItemCount(
                                                 product?._id,
@@ -69,14 +69,13 @@ const CartPage = () => {
                                             return (
                                                 <div
                                                     key={product?._id}
-                                                    className="border-b p-2.5 last:border-b-0 flex items-center justify-between gap-5"
+                                                    className="border-b p-3 sm:p-4 md:p-5 last:border-b-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 md:gap-5"
                                                 >
-                                                    <div className="flex flex-1 items-start gap-2 h-36 md:h-44">
+                                                    <div className="flex flex-1 items-start gap-2 sm:gap-3 min-w-0 w-full sm:w-auto">
                                                         {product?.images && (
                                                             <Link
                                                                 href={`/product/${product?.slug?.current}`}
-                                                                className="border p-0.5 md:p-1 mr-2 rounded-md
-                                 overflow-hidden group"
+                                                                className="border p-0.5 md:p-1 rounded-md overflow-hidden group flex-shrink-0"
                                                             >
                                                                 <Image
                                                                     src={urlFor(
@@ -87,35 +86,35 @@ const CartPage = () => {
                                                                     width={500}
                                                                     height={500}
                                                                     loading="lazy"
-                                                                    className="w-32 md:w-40 h-32 md:h-40 object-cover group-hover:scale-105 hoverEffect"
+                                                                    className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover group-hover:scale-105 hoverEffect"
                                                                 />
                                                             </Link>
                                                         )}
-                                                        <div className="h-full flex flex-1 flex-col justify-between py-1">
-                                                            <div className="flex flex-col gap-0.5 md:gap-1.5">
-                                                                <h2 className="text-base font-semibold line-clamp-1">
+                                                        <div className="flex flex-1 flex-col justify-between gap-2 sm:gap-3 min-w-0">
+                                                            <div className="flex flex-col gap-1 sm:gap-1.5">
+                                                                <h2 className="text-sm sm:text-base font-semibold break-words line-clamp-2">
                                                                     {
                                                                         product?.name
                                                                     }
                                                                 </h2>
-                                                                <p className="text-sm capitalize">
+                                                                <p className="text-xs sm:text-sm capitalize text-gray-600">
                                                                     Variant:{' '}
-                                                                    <span className="font-semibold">
+                                                                    <span className="font-semibold text-darkColor">
                                                                         {
                                                                             product?.variant
                                                                         }
                                                                     </span>
                                                                 </p>
-                                                                <p className="text-sm capitalize">
+                                                                <p className="text-xs sm:text-sm capitalize text-gray-600">
                                                                     Status:{' '}
-                                                                    <span className="font-semibold">
+                                                                    <span className="font-semibold text-darkColor">
                                                                         {
                                                                             product?.status
                                                                         }
                                                                     </span>
                                                                 </p>
                                                             </div>
-                                                            <div className="flex items-center gap-2">
+                                                            <div className="flex items-center gap-2 sm:gap-3">
                                                                 <TooltipProvider>
                                                                     <Tooltip>
                                                                         <TooltipTrigger>
@@ -143,7 +142,7 @@ const CartPage = () => {
                                                                                         'Product deleted successfully!',
                                                                                     );
                                                                                 }}
-                                                                                className="w-4 h-4 md:w-5 md:h-5 mr-1 text-gray-500 hover:text-red-600 hoverEffect"
+                                                                                className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 hover:text-red-600 hoverEffect cursor-pointer"
                                                                             />
                                                                         </TooltipTrigger>
                                                                         <TooltipContent className="font-bold bg-red-600">
@@ -155,13 +154,13 @@ const CartPage = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="flex flex-col items-start justify-between h-36 md:h-44 p-0.5 md:p-1">
+                                                    <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-between gap-3 sm:gap-4 w-full sm:w-auto sm:flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0">
                                                         <PriceFormatter
                                                             amount={
                                                                 (product?.price as number) *
                                                                 itemCount
                                                             }
-                                                            className="font-bold text-lg"
+                                                            className="font-bold text-base sm:text-lg text-shop_dark_green"
                                                         />
                                                         <QuantityButtons
                                                             product={product}
@@ -173,7 +172,7 @@ const CartPage = () => {
                                     </div>
                                     <Button
                                         onClick={handleResetCart}
-                                        className="m-5 font-semibold"
+                                        className="m-3 sm:m-4 md:m-5 font-semibold w-auto"
                                         variant={'destructive'}
                                     >
                                         Reset Cart
