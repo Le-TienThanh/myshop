@@ -2,9 +2,15 @@
 import useStore from '@/store';
 import React, { useState } from 'react';
 import Container from './Container';
-import { HeartIcon } from 'lucide-react';
+import { HeartIcon, X } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { Product } from '@/sanity.types';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
+import { urlFor } from '@/sanity/lib/image';
+import PriceFormatter from './PriceFormatter';
+import AddToCartButton from './AddToCartButton';
 
 const WishListProducts = () => {
     const [visibleProducts, setVisibleProducts] = useState(7);
@@ -15,10 +21,157 @@ const WishListProducts = () => {
         );
     };
 
+    const handleResetWishlist = () => {
+        const confirmReset = window.confirm(
+            'Are you sure you want to reset your wishlist?',
+        );
+        if (confirmReset) {
+            resetFavorite();
+            toast.success('Wishlist has been reset.');
+        }
+    }
+
     return (
         <Container>
             {favoriteProduct?.length > 0 ? (
-                <p>Product available</p>
+                <>
+                    <div className="overflow-x-auto">
+                        <table className="w-full border-collapse">
+                            <thead className="border-b">
+                                <tr className="bg-gray-200">
+                                    <th className="p-2 text-left">Image</th>
+                                    <th className="p-2 text-left hidden md:table-cell">
+                                        Category
+                                    </th>
+                                    <th className="p-2 text-left hidden md:table-cell">
+                                        Type
+                                    </th>
+                                    <th className="p-2 text-left hidden md:table-cell">
+                                        Status
+                                    </th>
+                                    <th className="p-2 text-left ">Price</th>
+                                    <th className="p-2 text-center md:text-left">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {favoriteProduct
+                                    ?.slice(0, visibleProducts)
+                                    ?.map((product: Product) => (
+                                        <tr
+                                            key={product?._id}
+                                            className="border-b"
+                                        >
+                                            <td className="px-2 py-4 flex items-center gap-2">
+                                                <X
+                                                    onClick={() => {
+                                                        removeFromFavorite(
+                                                            product?._id,
+                                                        );
+                                                        toast.success(
+                                                            'Product removed from wishlist.',
+                                                        );
+                                                    }}
+                                                    size={18}
+                                                    className="hover:text-red-600 hover:cursor-pointer hoverEffect"
+                                                />
+                                                {product?.images && (
+                                                    <Link
+                                                        href={`/product/${product?.slug?.current}`}
+                                                        className="border rounded-md group hidden md:inline-flex"
+                                                    >
+                                                        <Image
+                                                            src={urlFor(
+                                                                product
+                                                                    ?.images[0],
+                                                            ).url()}
+                                                            alt="product image"
+                                                            width={80}
+                                                            height={80}
+                                                            className="rounded-md group-hover:scale-105 hoverEffect h-20 w-20 object-contain"
+                                                        />
+                                                    </Link>
+                                                )}
+                                                <p className="line-clamp-1">
+                                                    {product?.name}
+                                                </p>
+                                            </td>
+                                            <td className="p-2 capitalize hidden md:table-cell">
+                                                {product?.categories && (
+                                                    <p className="uppercase line-clamp-1 text-xs font-medium ">
+                                                        {product?.categories
+                                                            ?.map((cat) => cat)
+                                                            .join(', ')}
+                                                    </p>
+                                                )}
+                                            </td>
+                                            <td className="p-2 capitalize hidden md:table-cell">
+                                                {product?.variant}
+                                            </td>
+                                            <td
+                                                className={`p-2 w-24 ${(product?.stock as number) > 0 ? 'text-green-600' : 'text-red-600'} 
+                                            hidden md:table-cell `}
+                                            >
+                                                {(product?.stock as number) > 0
+                                                    ? 'In Stock'
+                                                    : 'Out of Stock'}
+                                            </td>
+                                            <td className="p-2">
+                                                <PriceFormatter
+                                                    amount={product?.price}
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <AddToCartButton
+                                                    product={product}
+                                                    className="w-full"
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {visibleProducts < favoriteProduct?.length && (
+                            <div className="my-5 text-center">
+                                <Button
+                                    variant={'outline'}
+                                    onClick={loadMore}
+                                    className="border-shop_light_green hover:bg-shop_light_green group"
+                                >
+                                    <span className="group-hover:text-white">
+                                        Load more
+                                    </span>
+                                </Button>
+                            </div>
+                        )}
+                        {visibleProducts > 10 && (
+                            <div className="my-5 text-center ">
+                                <Button
+                                    variant={'outline'}
+                                    onClick={() => setVisibleProducts(10)}
+                                    className="border-shop_light_green hover:bg-shop_light_green group"
+                                >
+                                    <span className="group-hover:text-white">
+                                        Load less
+                                    </span>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                    {favoriteProduct?.length > 0 && (
+                        <Button
+                            onClick={handleResetWishlist}
+                            className="mb-5 font-semibold"
+                            size={'lg'}
+                            variant={'destructive'}
+                        >
+                            Reset Wishlist
+                        </Button>
+                    )}
+                </>
             ) : (
                 <div
                     className="flex min-h-[400px] flex-col items-center justify-center space-y-6
