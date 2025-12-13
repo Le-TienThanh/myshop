@@ -21,7 +21,8 @@ const SingleProductPage = async ({
 }) => {
     const { slug } = await params;
     const product = await getProductBySlug(slug);
-    if(!product) {
+    
+    if (!product) {
         return notFound();
     }
 

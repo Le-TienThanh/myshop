@@ -26,6 +26,7 @@ export type Address = {
   state?: string;
   zip?: string;
   createdAt?: string;
+  default?: string;
 };
 
 export type BlogCategory = {

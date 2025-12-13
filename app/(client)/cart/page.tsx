@@ -1,5 +1,9 @@
 'use client';
 
+import {
+    createCheckoutSession,
+    Metadata,
+} from '@/actions/createCheckoutSession';
 import AddToWishlistButton from '@/components/AddToWishlistButton';
 import Container from '@/components/Container';
 import EmptyCart from '@/components/EmptyCart';
@@ -62,7 +66,7 @@ const CartPage = () => {
             const query = `*[_type=="address"] | order(publishedAt desc)`;
             const data = await client.fetch(query);
             setAddresses(data);
-            const defaultAddress = data?.find((add: Address) => add?.isDefault);
+            const defaultAddress = data?.find((add: Address) => add?.default);
             if (defaultAddress) {
                 setSelectedAddress(defaultAddress);
             } else if (data?.length > 0) {
@@ -79,7 +83,31 @@ const CartPage = () => {
         fetchAddresses();
     }, []);
 
-    const handleCheckout = () => {};
+    const handleCheckout = async () => {
+        setLoading(true);
+        try {
+            const metadata: Metadata = {
+                orderNumber: crypto.randomUUID(),
+                customerName: user?.fullName ?? 'Unknown',
+                customerEmail:
+                    user?.emailAddresses[0]?.emailAddress ?? 'Unknown',
+                clerkUserId: user?.id,
+                addresses: selectedAddress,
+            };
+            const checkoutUrl = await createCheckoutSession(
+                groupedItems,
+                metadata,
+            );
+            if (checkoutUrl) {
+                window.location.href = checkoutUrl
+            }
+            
+        } catch (error) {
+            console.error('Checkout error: ', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="bg-gray-50 pb-5 md:pd-10 ">

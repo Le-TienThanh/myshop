@@ -15,7 +15,6 @@ const ProductCharacteristics = async ({
 }) => {
     const brand = await getBrand(product?.slug?.current as string);
     
-
     return (
         <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
