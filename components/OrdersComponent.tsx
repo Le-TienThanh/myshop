@@ -1,3 +1,4 @@
+'use client';
 import { MY_ORDERS_QUERYResult } from '@/sanity.types';
 import React, { useState } from 'react';
 import { TableBody, TableCell, TableRow } from './ui/table';
