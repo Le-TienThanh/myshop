@@ -65,6 +65,9 @@ export async function POST(req: NextRequest) {
             );
         }
     }
+    return NextResponse.json({
+        received: true,
+    });
 }
 
 async function createOrderInSanity(
@@ -123,7 +126,7 @@ async function createOrderInSanity(
         amountDiscount: total_details?.amount_discount
             ? total_details?.amount_discount / 100
             : 0,
-        product: sanityProducts,
+        products: sanityProducts,
         totalPrice: amount_total ? amount_total / 100 : 0,
         status: 'paid',
         orderDate: new Date().toISOString(),
