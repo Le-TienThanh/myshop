@@ -164,7 +164,7 @@ const WishListProducts = () => {
                     {favoriteProduct?.length > 0 && (
                         <Button
                             onClick={handleResetWishlist}
-                            className="mb-5 font-semibold"
+                            className="my-5 font-semibold"
                             size={'lg'}
                             variant={'destructive'}
                         >
