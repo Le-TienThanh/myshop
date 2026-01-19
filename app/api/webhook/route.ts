@@ -117,7 +117,7 @@ async function createOrderInSanity(
         _type: 'order',
         orderNumber,
         stripeCheckoutSessionId: id,
-        stripPaymentIntentId: payment_intent,
+        stripePaymentIntentId: payment_intent,
         customerName,
         stripeCustomerId: customerEmail,
         clerkUserId,
