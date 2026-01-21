@@ -1,5 +1,9 @@
 'use client';
 
+import {
+    createCheckoutSession,
+    Metadata,
+} from '@/actions/createCheckoutSession';
 import AddToWishlistButton from '@/components/AddToWishlistButton';
 import Container from '@/components/Container';
 import EmptyCart from '@/components/EmptyCart';
@@ -62,7 +66,7 @@ const CartPage = () => {
             const query = `*[_type=="address"] | order(publishedAt desc)`;
             const data = await client.fetch(query);
             setAddresses(data);
-            const defaultAddress = data?.find((add: Address) => add?.isDefault);
+            const defaultAddress = data?.find((add: Address) => add?.default);
             if (defaultAddress) {
                 setSelectedAddress(defaultAddress);
             } else if (data?.length > 0) {
@@ -78,6 +82,33 @@ const CartPage = () => {
     useEffect(() => {
         fetchAddresses();
     }, []);
+
+    const handleCheckout = async () => {
+        setLoading(true);
+        try {
+            const metadata: Metadata = {
+                orderNumber: crypto.randomUUID(),
+                customerName: user?.fullName ?? 'Unknown',
+                customerEmail:
+                    user?.emailAddresses[0]?.emailAddress ?? 'Unknown',
+                clerkUserId: user?.id,
+                addresses: selectedAddress,
+            };
+            const checkoutUrl = await createCheckoutSession(
+                groupedItems,
+                metadata,
+            );
+            if (checkoutUrl) {
+                window.location.href = checkoutUrl
+            }
+            
+        } catch (error) {
+            console.error('Checkout error: ', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="bg-gray-50 pb-5 md:pd-10 ">
             {isSignedIn ? (
@@ -88,7 +119,7 @@ const CartPage = () => {
                                 <ShoppingBag className="text-shop_light_green" />
                                 <Title>Shopping Cart</Title>
                             </div>
-                            <div className="grid lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                            <div className="grid  lg:grid-cols-3 md:gap-8">
                                 <div className="lg:col-span-2 rounded-lg">
                                     <div className="border rounded-md bg-white overflow-hidden">
                                         {groupedItems?.map(({ product }) => {
@@ -98,7 +129,7 @@ const CartPage = () => {
                                             return (
                                                 <div
                                                     key={product?._id}
-                                                    className="border-b p-2.5 last:border-b-0 flex flex-col items-center justify-between gap-5"
+                                                    className="border-b p-2.5 last:border-b-0 flex items-center justify-between gap-5"
                                                 >
                                                     <div className="flex flex-1 items-start gap-2 sm:gap-3 min-w-0 w-full sm:w-auto">
                                                         {product?.images && (
@@ -242,6 +273,8 @@ const CartPage = () => {
                                                     className="w-full rounded-full font-semibold tracking-wide 
                                                 hoverEffect"
                                                     size={'lg'}
+                                                    disabled={loading}
+                                                    onClick={handleCheckout}
                                                 >
                                                     {loading
                                                         ? 'Processing...'
@@ -336,9 +369,46 @@ const CartPage = () => {
                                     </div>
                                 </div>
                                 {/* Order Summary for mobile */}
-                                <div className="md:hidden fixed bottom-0 left-0 w-full bg-white pt-2">
-                                    <div className="bg-white p-4 rounded-lg border mx-4">
+                                <div className="md:hidden fixed bottom-0 left-0 w-full bg-gray-200 pt-2">
+                                    <div className="bg-white p-4 rounded-lg border mx-4 mb-4">
                                         <h2>Order Summary</h2>
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <span>Subtotal</span>
+                                                <PriceFormatter
+                                                    amount={getSubTotalPrice()}
+                                                />
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span>Discount</span>
+                                                <PriceFormatter
+                                                    amount={
+                                                        getSubTotalPrice() -
+                                                        getTotalPrice()
+                                                    }
+                                                />
+                                            </div>
+                                            <Separator />
+                                            <div className="flex items-center justify-between font-semibold text-lg">
+                                                <span>Total </span>
+                                                <PriceFormatter
+                                                    amount={getTotalPrice()}
+                                                    className="text-lg font-bold text-black"
+                                                />
+                                            </div>
+
+                                            <Button
+                                                className="w-full rounded-full font-semibold tracking-wide 
+                                                hoverEffect"
+                                                size={'lg'}
+                                                disabled={loading}
+                                                onClick={handleCheckout}
+                                            >
+                                                {loading
+                                                    ? 'Processing...'
+                                                    : 'Proceed to Checkout'}
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

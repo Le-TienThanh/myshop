@@ -19,6 +19,7 @@ const HomeBanner = () => {
                         animate={{ scale: [1, 1.1, 1] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                         
+                        
                     >
                         <Link
                             href={'/shop'}
